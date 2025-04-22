@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ohio 5G & Broadband Job Search Portal</title>
   <style>
     body {
@@ -17,20 +17,20 @@
       padding: 1em;
       text-align: center;
     }
-    header h1 {
-      margin: 0.2em 0;
-      font-size: 2rem;
-    }
     .container {
       max-width: 960px;
       margin: 0 auto;
       padding: 2em;
     }
+    h1, h2 {
+      margin: 0.5em 0;
+      text-align: center;
+    }
     form {
       display: grid;
       gap: 0.75em;
       margin: 2em 0;
-      background-color: #ffffff;
+      background-color: white;
       padding: 1.5em;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -46,27 +46,20 @@
       color: white;
       border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: 0.3s;
     }
     button:hover {
       background-color: #990000;
-    }
-    section {
-      margin-bottom: 3em;
-    }
-    h2 {
-      color: #bb0000;
-      margin-bottom: 0.5em;
     }
     .note {
       font-size: 0.9rem;
       color: #555;
     }
-    footer {
-      font-size: 0.8rem;
-      color: #666;
-      text-align: center;
-      padding: 1em 0;
+    section {
+      margin-bottom: 3em;
+    }
+    ul {
+      padding-left: 1.2em;
     }
     img.banner {
       display: block;
@@ -74,41 +67,59 @@
       height: auto;
       margin: 1em auto 2em;
     }
+    footer {
+      font-size: 0.8rem;
+      color: #666;
+      text-align: center;
+      padding: 1em 0;
+    }
   </style>
   <script>
-    const countyGeoMap = {
-      'Adams': '', 'Allen': '', 'Ashland': '', 'Ashtabula': '', 'Athens': '', 'Auglaize': '',
-      'Belmont': '', 'Brown': '', 'Butler': '', 'Carroll': '', 'Champaign': '', 'Clark': '',
-      'Clermont': '', 'Clinton': '', 'Columbiana': '', 'Coshocton': '', 'Crawford': '',
-      'Cuyahoga': '103644273', 'Darke': '', 'Defiance': '', 'Delaware': '', 'Erie': '',
-      'Fairfield': '', 'Fayette': '', 'Franklin': '103644278', 'Fulton': '', 'Gallia': '',
-      'Geauga': '', 'Greene': '', 'Guernsey': '', 'Hamilton': '103644288', 'Hancock': '',
-      'Hardin': '', 'Harrison': '', 'Henry': '', 'Highland': '', 'Hocking': '', 'Holmes': '',
-      'Huron': '', 'Jackson': '', 'Jefferson': '', 'Knox': '', 'Lake': '', 'Lawrence': '',
-      'Licking': '', 'Logan': '', 'Lorain': '', 'Lucas': '103644280', 'Madison': '',
-      'Mahoning': '', 'Marion': '', 'Medina': '', 'Meigs': '', 'Mercer': '', 'Miami': '',
-      'Monroe': '', 'Montgomery': '103644284', 'Morgan': '', 'Morrow': '', 'Muskingum': '',
-      'Noble': '', 'Ottawa': '', 'Paulding': '', 'Perry': '', 'Pickaway': '', 'Pike': '',
-      'Portage': '', 'Preble': '', 'Putnam': '', 'Richland': '', 'Ross': '', 'Sandusky': '',
-      'Scioto': '', 'Seneca': '', 'Shelby': '', 'Stark': '', 'Summit': '103644293',
-      'Trumbull': '', 'Tuscarawas': '', 'Union': '', 'Van Wert': '', 'Vinton': '',
-      'Warren': '', 'Washington': '', 'Wayne': '', 'Williams': '', 'Wood': '', 'Wyandot': ''
+    const counties = [
+      'Adams','Allen','Ashland','Ashtabula','Athens','Auglaize','Belmont','Brown','Butler','Carroll','Champaign','Clark',
+      'Clermont','Clinton','Columbiana','Coshocton','Crawford','Cuyahoga','Darke','Defiance','Delaware','Erie','Fairfield',
+      'Fayette','Franklin','Fulton','Gallia','Geauga','Greene','Guernsey','Hamilton','Hancock','Hardin','Harrison','Henry',
+      'Highland','Hocking','Holmes','Huron','Jackson','Jefferson','Knox','Lake','Lawrence','Licking','Logan','Lorain',
+      'Lucas','Madison','Mahoning','Marion','Medina','Meigs','Mercer','Miami','Monroe','Montgomery','Morgan','Morrow',
+      'Muskingum','Noble','Ottawa','Paulding','Perry','Pickaway','Pike','Portage','Preble','Putnam','Richland','Ross',
+      'Sandusky','Scioto','Seneca','Shelby','Stark','Summit','Trumbull','Tuscarawas','Union','Van Wert','Vinton','Warren',
+      'Washington','Wayne','Williams','Wood','Wyandot'
+    ];
+
+    const geoURNs = {
+      'Franklin': '103644278',
+      'Cuyahoga': '103644273',
+      'Hamilton': '103644288',
+      'Summit': '103644293',
+      'Montgomery': '103644284',
+      'Lucas': '103644280'
     };
 
-    function updateGeoURN(selectElem) {
-      const geoInput = document.querySelector("input[name='geoUrn']");
-      geoInput.value = countyGeoMap[selectElem.value] || '';
+    function populateDropdowns() {
+      const dropdowns = document.querySelectorAll('.county-dropdown');
+      dropdowns.forEach(select => {
+        counties.forEach(county => {
+          const opt = document.createElement('option');
+          opt.value = county;
+          opt.textContent = county;
+          select.appendChild(opt);
+        });
+      });
     }
 
-    function updateIndeedLocation(selectElem) {
-      const locInput = document.querySelector("input[name='l']");
-      locInput.value = selectElem.value + ", OH";
+    function updateGeoURN(select) {
+      document.querySelector(\"input[name='geoUrn']\").value = geoURNs[select.value] || '';
     }
 
-    function updateOMJLocation(selectElem) {
-      const locInput = document.querySelector("input[name='omjloc']");
-      locInput.value = selectElem.value;
+    function updateIndeedLocation(select) {
+      document.querySelector(\"input[name='l']\").value = select.value + \", OH\";
     }
+
+    function updateOMJLocation(select) {
+      document.querySelector(\"input[name='omjloc']\").value = select.value;
+    }
+
+    window.onload = populateDropdowns;
   </script>
 </head>
 <body>
@@ -122,9 +133,47 @@
 
     <p>This tool allows users to quickly search broadband and 5G job opportunities across multiple platforms using keyword and location filters. This effort supports digital equity and economic mobility by linking Ohioans to relevant telecom and broadband careers.</p>
 
-    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png" alt="Job Search Graphic" class="banner">
+    <img class="banner" src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png" alt="Job Search Illustration" />
 
-    <!-- LinkedIn, Indeed, OMJ sections remain -->
+    <section>
+      <h2>Search LinkedIn</h2>
+      <form action="https://www.linkedin.com/search/results/people/" method="GET" target="_blank">
+        <input type="text" name="keywords" placeholder="Keywords (e.g., network technician)" required />
+        <select class="county-dropdown" onchange="updateGeoURN(this)">
+          <option value="">Select County</option>
+        </select>
+        <input type="text" name="geoUrn" placeholder="Geography URN" />
+        <input type="text" name="industry" placeholder="Industry (e.g., telecommunications)" />
+        <button type="submit">Search LinkedIn</button>
+        <p class="note">You will be redirected to LinkedIn.</p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Search Indeed</h2>
+      <form action="https://www.indeed.com/jobs" method="GET" target="_blank">
+        <input type="text" name="q" placeholder="Keywords (e.g., broadband installer)" required />
+        <select class="county-dropdown" onchange="updateIndeedLocation(this)">
+          <option value="">Select County</option>
+        </select>
+        <input type="text" name="l" placeholder="Location (e.g., Cleveland, OH)" required />
+        <button type="submit">Search Indeed</button>
+        <p class="note">You will be redirected to Indeed.</p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Search OhioMeansJobs</h2>
+      <form action="https://ohiomeansjobs.ohio.gov/job-seekers/search" method="GET" target="_blank">
+        <input type="text" name="search" placeholder="Keywords (e.g., fiber tech)" required />
+        <select class="county-dropdown" onchange="updateOMJLocation(this)">
+          <option value="">Select County</option>
+        </select>
+        <input type="text" name="omjloc" placeholder="County" />
+        <button type="submit">Search OMJ</button>
+        <p class="note">You will be redirected to OhioMeansJobs.</p>
+      </form>
+    </section>
 
     <section>
       <h2>Additional Resources</h2>
