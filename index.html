@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ohio 5G & Broadband Job Search Portal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+      color: #222;
+    }
+    header {
+      background-color: #bb0000;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0.2em 0;
+      font-size: 2rem;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2em;
+    }
+    form {
+      display: grid;
+      gap: 0.75em;
+      margin: 2em 0;
+      background-color: #ffffff;
+      padding: 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      padding: 0.75em;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #bb0000;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #990000;
+    }
+    section {
+      margin-bottom: 3em;
+    }
+    h2 {
+      color: #bb0000;
+      margin-bottom: 0.5em;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    img.banner {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 1em auto 2em;
+    }
+  </style>
+  <script>
+    const countyGeoMap = {
+      'Franklin': '103644278',
+      'Cuyahoga': '103644273',
+      'Hamilton': '103644288',
+      'Summit': '103644293',
+      'Montgomery': '103644284',
+      'Lucas': '103644280'
+    };
+
+    function updateGeoURN(selectElem) {
+      const geoInput = document.querySelector("input[name='geoUrn']");
+      geoInput.value = countyGeoMap[selectElem.value] || '';
+    }
+
+    function updateIndeedLocation(selectElem) {
+      const locInput = document.querySelector("input[name='l']");
+      locInput.value = selectElem.value + ", OH";
+    }
+
+    function updateOMJLocation(selectElem) {
+      const locInput = document.querySelector("input[name='omjloc']");
+      locInput.value = selectElem.value;
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Ohio 5G & Broadband Job Search Tool</h1>
+    <p>Explore career opportunities in your region across leading job boards</p>
+  </header>
+
+  <div class="container">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png" alt="Job Search Graphic" class="banner">
+
+    <section>
+      <h2>Search LinkedIn</h2>
+      <form action="https://www.linkedin.com/search/results/people/" method="GET" target="_blank">
+        <input type="text" name="keywords" placeholder="Keywords (e.g., broadband technician)" required>
+        <select onchange="updateGeoURN(this)">
+          <option value="">Select County</option>
+          <option value="Franklin">Franklin</option>
+          <option value="Cuyahoga">Cuyahoga</option>
+          <option value="Hamilton">Hamilton</option>
+          <option value="Summit">Summit</option>
+          <option value="Montgomery">Montgomery</option>
+          <option value="Lucas">Lucas</option>
+        </select>
+        <input type="text" name="geoUrn" placeholder="Geography URN">
+        <input type="text" name="industry" placeholder="Industry (e.g., telecommunications)">
+        <button type="submit">Search LinkedIn</button>
+        <p class="note">You will be redirected to LinkedIn.</p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Search Indeed</h2>
+      <form action="https://www.indeed.com/jobs" method="GET" target="_blank">
+        <input type="text" name="q" placeholder="Keywords (e.g., 5G engineer)" required>
+        <select onchange="updateIndeedLocation(this)">
+          <option value="">Select County</option>
+          <option value="Franklin">Franklin</option>
+          <option value="Cuyahoga">Cuyahoga</option>
+          <option value="Hamilton">Hamilton</option>
+          <option value="Summit">Summit</option>
+          <option value="Montgomery">Montgomery</option>
+          <option value="Lucas">Lucas</option>
+        </select>
+        <input type="text" name="l" placeholder="Location (e.g., Columbus, OH)" required>
+        <button type="submit">Search Indeed</button>
+        <p class="note">You will be redirected to Indeed.</p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Search OhioMeansJobs</h2>
+      <form action="https://ohiomeansjobs.ohio.gov/wps/portal/gov/omj/job-search" method="GET" target="_blank">
+        <input type="text" name="search" placeholder="Keywords (e.g., broadband installer)" required>
+        <select onchange="updateOMJLocation(this)">
+          <option value="">Select County</option>
+          <option value="Franklin">Franklin</option>
+          <option value="Cuyahoga">Cuyahoga</option>
+          <option value="Hamilton">Hamilton</option>
+          <option value="Summit">Summit</option>
+          <option value="Montgomery">Montgomery</option>
+          <option value="Lucas">Lucas</option>
+        </select>
+        <input type="text" name="omjloc" placeholder="County">
+        <button type="submit">Search OhioMeansJobs</button>
+        <p class="note">You will be redirected to OhioMeansJobs.</p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Why This Matters</h2>
+      <p>This tool was created to help students and job seekers across Ohio quickly access broadband and 5G career opportunities in their area. It centralizes job board access and supports exploration in the rapidly evolving telecommunications field.</p>
+    </section>
+  </div>
+</body>
+</html>
