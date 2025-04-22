@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ohio 5G & Broadband Job Search Portal</title>
+
+  <!-- External Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- Styling -->
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,17 +36,22 @@
     form {
       display: grid;
       gap: 0.75em;
-      margin: 2em 0;
+      margin: 2em auto;
       background-color: white;
       padding: 1.5em;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    label {
+      font-weight: bold;
     }
     input, select, button {
       padding: 0.75em;
       font-size: 1rem;
       border-radius: 6px;
       border: 1px solid #ccc;
+      width: 100%;
     }
     button {
       background-color: #bb0000;
@@ -77,46 +86,49 @@
       padding: 1em 0;
     }
   </style>
- <script>
-  const counties = [
-    'Franklin', 'Cuyahoga', 'Hamilton', 'Summit', 'Montgomery', 'Lucas'
-  ];
 
-  const geoURNs = {
-    'Franklin': '103644278',
-    'Cuyahoga': '103644273',
-    'Hamilton': '103644288',
-    'Summit': '103644293',
-    'Montgomery': '103644284',
-    'Lucas': '103644280'
-  };
+  <!-- JavaScript -->
+  <script>
+    const counties = [
+      'Franklin', 'Cuyahoga', 'Hamilton', 'Summit', 'Montgomery', 'Lucas'
+    ];
 
-  function updateGeoURN(e) {
-    document.querySelector("input[name='geoUrn']").value = geoURNs[e.target.value] || '';
-  }
+    const geoURNs = {
+      'Franklin': '103644278',
+      'Cuyahoga': '103644273',
+      'Hamilton': '103644288',
+      'Summit': '103644293',
+      'Montgomery': '103644284',
+      'Lucas': '103644280'
+    };
 
-  function updateIndeedLocation(e) {
-    document.querySelector("input[name='l']").value = e.target.value + ", OH";
-  }
+    function updateGeoURN(e) {
+      document.querySelector("input[name='geoUrn']").value = geoURNs[e.target.value] || '';
+    }
 
-  function updateOMJLocation(e) {
-    document.querySelector("input[name='omjloc']").value = e.target.value;
-  }
+    function updateIndeedLocation(e) {
+      document.querySelector("input[name='l']").value = e.target.value + ", OH";
+    }
 
-  function setupDropdowns() {
-    const selects = document.querySelectorAll('.county-dropdown');
-    selects.forEach(select => {
-      counties.forEach(county => {
-        const option = document.createElement('option');
-        option.value = county;
-        option.textContent = county;
-        select.appendChild(option);
+    function updateOMJLocation(e) {
+      document.querySelector("input[name='omjloc']").value = e.target.value;
+    }
+
+    function setupDropdowns() {
+      const selects = document.querySelectorAll('.county-dropdown');
+      selects.forEach(select => {
+        counties.forEach(county => {
+          const option = document.createElement('option');
+          option.value = county;
+          option.textContent = county;
+          select.appendChild(option);
+        });
+        $(select).select2(); // Enable searchable dropdown
       });
-    });
-  }
+    }
 
-  window.onload = setupDropdowns;
-</script>
+    window.onload = setupDropdowns;
+  </script>
 </head>
 <body>
   <header>
@@ -125,22 +137,25 @@
   </header>
 
   <div class="container">
-    <p><strong>Note:</strong> This site is independently developed by <a href="https://www.linkedin.com/in/mark-oleson-38b661161/" target="_blank">Mark Oleson</a> and is not affiliated with The Ohio State University, the State of Ohio, or any partner organization. Intended for personal and educational use only.</p>
-<p><strong>Disclaimer:</strong> No data from the Ohio Longitudinal Data Archive (OLDA) or any restricted-access or sensitive datasets were used in the development of this tool. This is an entirely independent project created for personal, educational, and demonstrative purposes. It does not represent the views, endorsements, or affiliations of The Ohio State University, any state or federal agency, or any government or non-governmental entity that Mark Oleson may work for, contract with, or collaborate with now or in the future.</p>
-
-    <p>This tool allows users to quickly search broadband and 5G job opportunities across multiple platforms using keyword and location filters. This effort supports digital equity and economic mobility by linking Ohioans to relevant telecom and broadband careers.</p>
-
     <img class="banner" src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png" alt="Job Search Illustration" />
 
     <section>
       <h2>Search LinkedIn</h2>
       <form action="https://www.linkedin.com/search/results/people/" method="GET" target="_blank">
-        <input type="text" name="keywords" placeholder="Keywords (e.g., network technician)" required />
-        <select class="county-dropdown" onchange="updateGeoURN(this)">
+        <label for="linkedin-keywords">Keywords</label>
+        <input id="linkedin-keywords" type="text" name="keywords" placeholder="e.g., network technician" required />
+
+        <label for="linkedin-county">Select County</label>
+        <select id="linkedin-county" class="county-dropdown" onchange="updateGeoURN(event)">
           <option value="">Select County</option>
         </select>
-        <input type="text" name="geoUrn" placeholder="Geography URN" />
-        <input type="text" name="industry" placeholder="Industry (e.g., telecommunications)" />
+
+        <label for="linkedin-geo">Geography URN</label>
+        <input id="linkedin-geo" type="text" name="geoUrn" placeholder="Geography URN" />
+
+        <label for="linkedin-industry">Industry</label>
+        <input id="linkedin-industry" type="text" name="industry" placeholder="e.g., telecommunications" />
+
         <button type="submit">Search LinkedIn</button>
         <p class="note">You will be redirected to LinkedIn.</p>
       </form>
@@ -149,11 +164,17 @@
     <section>
       <h2>Search Indeed</h2>
       <form action="https://www.indeed.com/jobs" method="GET" target="_blank">
-        <input type="text" name="q" placeholder="Keywords (e.g., broadband installer)" required />
-        <select class="county-dropdown" onchange="updateIndeedLocation(this)">
+        <label for="indeed-keywords">Keywords</label>
+        <input id="indeed-keywords" type="text" name="q" placeholder="e.g., broadband installer" required />
+
+        <label for="indeed-county">Select County</label>
+        <select id="indeed-county" class="county-dropdown" onchange="updateIndeedLocation(event)">
           <option value="">Select County</option>
         </select>
-        <input type="text" name="l" placeholder="Location (e.g., Cleveland, OH)" required />
+
+        <label for="indeed-location">Location</label>
+        <input id="indeed-location" type="text" name="l" placeholder="e.g., Cleveland, OH" required />
+
         <button type="submit">Search Indeed</button>
         <p class="note">You will be redirected to Indeed.</p>
       </form>
@@ -162,11 +183,17 @@
     <section>
       <h2>Search OhioMeansJobs</h2>
       <form action="https://ohiomeansjobs.ohio.gov/job-seekers/search" method="GET" target="_blank">
-        <input type="text" name="search" placeholder="Keywords (e.g., fiber tech)" required />
-        <select class="county-dropdown" onchange="updateOMJLocation(this)">
+        <label for="omj-keywords">Keywords</label>
+        <input id="omj-keywords" type="text" name="search" placeholder="e.g., fiber tech" required />
+
+        <label for="omj-county">Select County</label>
+        <select id="omj-county" class="county-dropdown" onchange="updateOMJLocation(event)">
           <option value="">Select County</option>
         </select>
-        <input type="text" name="omjloc" placeholder="County" />
+
+        <label for="omjloc">County</label>
+        <input id="omjloc" type="text" name="omjloc" placeholder="County" />
+
         <button type="submit">Search OMJ</button>
         <p class="note">You will be redirected to OhioMeansJobs.</p>
       </form>
@@ -180,6 +207,12 @@
         <li><a href="https://www.linkedin.com/jobs" target="_blank">LinkedIn Jobs</a> – view who's hiring</li>
         <li><a href="https://www.indeed.com/career-advice/resume-samples" target="_blank">Resume Samples from Indeed</a></li>
       </ul>
+    </section>
+
+    <section>
+      <h2>Disclaimer</h2>
+      <p><strong>Note:</strong> This site is independently developed by <a href="https://www.linkedin.com/in/mark-oleson-38b661161/" target="_blank">Mark Oleson</a> and is not affiliated with The Ohio State University, the State of Ohio, or any partner organization. Intended for personal and educational use only.</p>
+      <p><strong>Legal:</strong> No data from the Ohio Longitudinal Data Archive (OLDA) or any restricted-access or sensitive datasets were used in the development of this tool. This is an entirely independent project created for personal, educational, and demonstrative purposes. It does not represent the views, endorsements, or affiliations of The Ohio State University, any state or federal agency, or any government or non-governmental entity that Mark Oleson may work for, contract with, or collaborate with now or in the future.</p>
     </section>
   </div>
 
