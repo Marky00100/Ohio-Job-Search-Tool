@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ohio 5G & Broadband Job Search Portal</title>
@@ -74,53 +77,46 @@
       padding: 1em 0;
     }
   </style>
-  <script>
-    const counties = [
-      'Adams','Allen','Ashland','Ashtabula','Athens','Auglaize','Belmont','Brown','Butler','Carroll','Champaign','Clark',
-      'Clermont','Clinton','Columbiana','Coshocton','Crawford','Cuyahoga','Darke','Defiance','Delaware','Erie','Fairfield',
-      'Fayette','Franklin','Fulton','Gallia','Geauga','Greene','Guernsey','Hamilton','Hancock','Hardin','Harrison','Henry',
-      'Highland','Hocking','Holmes','Huron','Jackson','Jefferson','Knox','Lake','Lawrence','Licking','Logan','Lorain',
-      'Lucas','Madison','Mahoning','Marion','Medina','Meigs','Mercer','Miami','Monroe','Montgomery','Morgan','Morrow',
-      'Muskingum','Noble','Ottawa','Paulding','Perry','Pickaway','Pike','Portage','Preble','Putnam','Richland','Ross',
-      'Sandusky','Scioto','Seneca','Shelby','Stark','Summit','Trumbull','Tuscarawas','Union','Van Wert','Vinton','Warren',
-      'Washington','Wayne','Williams','Wood','Wyandot'
-    ];
+ <script>
+  const counties = [
+    'Franklin', 'Cuyahoga', 'Hamilton', 'Summit', 'Montgomery', 'Lucas'
+  ];
 
-    const geoURNs = {
-      'Franklin': '103644278',
-      'Cuyahoga': '103644273',
-      'Hamilton': '103644288',
-      'Summit': '103644293',
-      'Montgomery': '103644284',
-      'Lucas': '103644280'
-    };
+  const geoURNs = {
+    'Franklin': '103644278',
+    'Cuyahoga': '103644273',
+    'Hamilton': '103644288',
+    'Summit': '103644293',
+    'Montgomery': '103644284',
+    'Lucas': '103644280'
+  };
 
-    function populateDropdowns() {
-      const dropdowns = document.querySelectorAll('.county-dropdown');
-      dropdowns.forEach(select => {
-        counties.forEach(county => {
-          const opt = document.createElement('option');
-          opt.value = county;
-          opt.textContent = county;
-          select.appendChild(opt);
-        });
+  function updateGeoURN(e) {
+    document.querySelector("input[name='geoUrn']").value = geoURNs[e.target.value] || '';
+  }
+
+  function updateIndeedLocation(e) {
+    document.querySelector("input[name='l']").value = e.target.value + ", OH";
+  }
+
+  function updateOMJLocation(e) {
+    document.querySelector("input[name='omjloc']").value = e.target.value;
+  }
+
+  function setupDropdowns() {
+    const selects = document.querySelectorAll('.county-dropdown');
+    selects.forEach(select => {
+      counties.forEach(county => {
+        const option = document.createElement('option');
+        option.value = county;
+        option.textContent = county;
+        select.appendChild(option);
       });
-    }
+    });
+  }
 
-    function updateGeoURN(select) {
-      document.querySelector(\"input[name='geoUrn']\").value = geoURNs[select.value] || '';
-    }
-
-    function updateIndeedLocation(select) {
-      document.querySelector(\"input[name='l']\").value = select.value + \", OH\";
-    }
-
-    function updateOMJLocation(select) {
-      document.querySelector(\"input[name='omjloc']\").value = select.value;
-    }
-
-    window.onload = populateDropdowns;
-  </script>
+  window.onload = setupDropdowns;
+</script>
 </head>
 <body>
   <header>
